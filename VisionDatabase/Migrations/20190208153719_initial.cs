@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VisionDatabase.Migrations
 {
-    public partial class Vision_initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,7 @@ namespace VisionDatabase.Migrations
                     ImageLocation = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
                     Source = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
                     CreatedOn = table.Column<DateTime>(nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    ExpiryOn = table.Column<DateTime>(nullable: true),
                     DeletedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>

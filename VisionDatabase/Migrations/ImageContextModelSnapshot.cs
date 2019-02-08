@@ -77,6 +77,8 @@ namespace VisionDatabase.Migrations
                         .HasColumnName("EventTime")
                         .HasColumnType("datetime");
 
+                    b.Property<DateTime?>("ExpiryOn");
+
                     b.Property<string>("Filename")
                         .HasColumnName("Filename")
                         .HasColumnType("varchar(50)")

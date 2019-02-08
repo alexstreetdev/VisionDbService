@@ -9,8 +9,8 @@ using VisionDatabase.DbModels;
 namespace VisionDatabase.Migrations
 {
     [DbContext(typeof(ImageContext))]
-    [Migration("20190201155150_Vision_initial")]
-    partial class Vision_initial
+    [Migration("20190208153719_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -78,6 +78,8 @@ namespace VisionDatabase.Migrations
                     b.Property<DateTime>("EventTime")
                         .HasColumnName("EventTime")
                         .HasColumnType("datetime");
+
+                    b.Property<DateTime?>("ExpiryOn");
 
                     b.Property<string>("Filename")
                         .HasColumnName("Filename")
