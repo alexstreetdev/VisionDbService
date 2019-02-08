@@ -11,7 +11,7 @@ namespace VisionDatabase.DbModels
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql(@"Server=168.63.105.225;Database=Vision;Uid=cato;Pwd=cato");
+            optionsBuilder.UseMySql(@"Server=192.168.0.50;Database=Vision;Uid=cato;Pwd=cato");
         }
 
         protected override void OnModelCreating(ModelBuilder mb)

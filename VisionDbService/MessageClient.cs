@@ -19,18 +19,16 @@ namespace VisionDbService
         private readonly IConnection _mQconn;
         private readonly IModel _channel;
         private readonly ServiceProvider _serviceProvider;
-        //private readonly DbContext _dbContext;
 
-        public MessageClient(ServiceProvider sp) //, DbContext dbc)
+        public MessageClient(ServiceProvider sp)
         {
             _serviceProvider = sp;
-            //_dbContext = dbc;
 
             var factory = new ConnectionFactory()
             {
                 UserName = "vision",
                 Password = "vision",
-                HostName = "168.63.105.225"
+                HostName = "192.168.0.50"
             };
             _mQconn = factory.CreateConnection();
 
