@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using VisionDatabase.DbModels;
@@ -14,7 +15,7 @@ namespace VisionDbService
     public class MessageClient
     {
         public const string MQ_EXCHANGE_NAME = "visionExchange";
-        public const string MQ_QUEUE_NAME = "visionDbQueue";
+        public const string MQ_QUEUE_NAME = "vision_database";
 
         private readonly IConnection _mQconn;
         private readonly IModel _channel;
@@ -28,15 +29,15 @@ namespace VisionDbService
             {
                 UserName = "vision",
                 Password = "vision",
-                HostName = "192.168.0.50"
+                HostName = "192.168.0.43"
             };
             _mQconn = factory.CreateConnection();
 
             _channel = _mQconn.CreateModel();
 
-            _channel.ExchangeDeclare(MQ_EXCHANGE_NAME, ExchangeType.Topic);
-            _channel.QueueDeclare(MQ_QUEUE_NAME, false, false, false, null);
-            _channel.QueueBind(MQ_QUEUE_NAME, MQ_EXCHANGE_NAME, "vision.*.*", null);
+            _channel.ExchangeDeclare(MQ_EXCHANGE_NAME, ExchangeType.Topic, true, false);
+            _channel.QueueDeclare(MQ_QUEUE_NAME, true, false, false, null);
+            _channel.QueueBind(MQ_QUEUE_NAME, MQ_EXCHANGE_NAME, "video.*.*", null);
 
         }
 
@@ -79,7 +80,9 @@ namespace VisionDbService
 
         public void HandleMovement(string bodyString)
         {
-            var m = JsonConvert.DeserializeObject<Movement>(bodyString);
+            var format = "yyyy-MM-dd HH:mm:ss:ffffff";  // e.g. date 2019-02-08 20:24:02:247125
+            var dateTimeConverter = new IsoDateTimeConverter { DateTimeFormat = format };
+            var m = JsonConvert.DeserializeObject<Movement>(bodyString, dateTimeConverter);
             var handler = _serviceProvider.GetService<IMessageHandler<Movement>>();
             handler.Handle(m);
         }
